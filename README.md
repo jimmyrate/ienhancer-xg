@@ -4,7 +4,7 @@ The program is developed for enchaner prediction, including five individual feat
 repDNA (http://bioinformatics.hitsz.edu.cn/repDNA/).  
 pip install shap //python  
 or  
-conda install -c conda-forge shap //python  
+conda install -c conda-forge shap //python
 
 2. DATASETS  
 Here, there are four datasets:enchancer, non-enchancer, strong enchancer, weak enchancer.  
