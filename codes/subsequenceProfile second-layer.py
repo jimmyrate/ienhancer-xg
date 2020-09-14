@@ -168,7 +168,7 @@ if __name__ == '__main__':
         print('Coding for (' + str(k) + ',' + str(delta) + ')-' + featurename + ', beginning')
         tic = time.clock()
 
-        Z = GetSubsequenceProfileByParallel(instances, piRNAletter, k, delta)
+        Z = GetSubsequenceProfileByParallel(instances, enhancer, k, delta)
         X = noramlization(Z)
         print('Dimension of (' + str(k) + ',' + str(delta) + ')-' + featurename + ': %d' % len(X[0]))
 
