@@ -159,7 +159,7 @@ if __name__ == '__main__':
         print('Coding for (' + str(k) + ',' + str(m) + ')-' + featurename + ', beginning')
         tic = time.clock()
 
-        Z = getMismatchProfileMatrix(instances1, piRNAletter, k, m)
+        Z = getMismatchProfileMatrix(instances1, enhancer, k, m)
         X = noramlization(Z)
         print('Dimension of (' + str(k) + ',' + str(m) + ')-' + featurename + ': %d' % len(X[0]))
         toc = time.clock()
