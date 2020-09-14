@@ -30,13 +30,13 @@ def getSequences(f):
 
 
 # getting (k, delta)-subsequence profile...................................................
-def GetSubsequenceProfileByParallel(instances, piRNAletter, k, delta):
+def GetSubsequenceProfileByParallel(instances, enhancer, k, delta):
     cpu_num = multiprocessing.cpu_count()
     batches = ConstructPartitions(instances, cpu_num)
     pool = multiprocessing.Pool(cpu_num)
     results = []
     for batch in batches:
-        temp = pool.apply_async(GetSubsequenceProfile, (batch, piRNAletter, k, delta))
+        temp = pool.apply_async(GetSubsequenceProfile, (batch, enhancer, k, delta))
         results.append(temp)
     pool.close()
     pool.join()
@@ -63,8 +63,8 @@ def ConstructPartitions(instances, cpu_num):
     return batches
 
 
-def GetSubsequenceProfile(instances, piRNAletter, k, delta):
-    kmerdict = GetKmerDict(piRNAletter, k)
+def GetSubsequenceProfile(instances, enhancer, k, delta):
+    kmerdict = GetKmerDict(enhancer, k)
     X = []
     for sequence in instances:
         vector = GetSubsequenceProfileVector(sequence, kmerdict, k, delta)
@@ -88,9 +88,9 @@ def GetSubsequenceProfileVector(sequence, kmerdict, k, delta):
     return list(vector[0])
 
 
-def GetKmerDict(piRNAletter, k):
+def GetKmerDict(enhancer, k):
     kmerlst = []
-    partkmers = list(combinations_with_replacement(piRNAletter, k))
+    partkmers = list(combinations_with_replacement(enhancer, k))
     for element in partkmers:
         elelst = set(permutations(element, k))
         strlst = [''.join(ele) for ele in elelst]
@@ -145,7 +145,7 @@ def noramlization(data):
 if __name__ == '__main__':
 
     featurename = 'SubsequenceProfile'
-    piRNAletter = ['A', 'C', 'G', 'T']
+    enhancer = ['A', 'C', 'G', 'T']
 
     # input sequences
     fz = open("enhancers3.fasta", 'r')
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     y = array([1] * len(enhancers) + [0] * len(nonenhancers))
     print('The number of positive and negative samples: %d, %d' % (len(enhancers), len(nonenhancers)))
     print ('the number of y:%d' % len(y))
-    # getting (k,delta)-subsequence profiles for (k,delta)=(1,0),(2,0),(3,1),(4,1),(5,1)
+    
     print('This process of getting features may spend some time \nplease do not close the program')
     for args in [[1, 0], [2, 0], [3, 0.7]]:
 
