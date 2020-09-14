@@ -33,9 +33,9 @@ def getSequences(f):
 
 
 # getting (k,m)-mismatch profile.................................................................
-def getMismatchProfileMatrix(instances, piRNAletter, k, m):
-    p = len(piRNAletter)
-    kmerdict = getKmerDict(piRNAletter, k)
+def getMismatchProfileMatrix(instances, enhancer, k, m):
+    p = len(enhancer)
+    kmerdict = getKmerDict(enhancer, k)
     features = []
     if k == 1 or k == 2:
         for sequence in instances:
@@ -44,16 +44,16 @@ def getMismatchProfileMatrix(instances, piRNAletter, k, m):
     else:
         if m == 1:
             for sequence in instances:
-                vector = getMismatchProfileVector(sequence, piRNAletter, kmerdict, p, k)
+                vector = getMismatchProfileVector(sequence, enhancer, kmerdict, p, k)
                 features.append(vector)
         else:
             assert ('you should reset m<=1')
     return array(features)
 
 
-def getKmerDict(piRNAletter, k):
+def getKmerDict(enhancer, k):
     kmerlst = []
-    partkmers = list(combinations_with_replacement(piRNAletter, k))
+    partkmers = list(combinations_with_replacement(enhancer, k))
     for element in partkmers:
         elelst = set(permutations(element, k))
         strlst = [''.join(ele) for ele in elelst]
@@ -73,7 +73,7 @@ def getSpectrumProfileVector(sequence, kmerdict, p, k):
     return list(vector[0])
 
 
-def getMismatchProfileVector(sequence, piRNAletter, kmerdict, p, k):
+def getMismatchProfileVector(sequence, enhancer, kmerdict, p, k):
     n = len(sequence)
     vector = np.zeros((1, p ** k))
     for i in range(n - k + 1):
@@ -139,7 +139,7 @@ def noramlization(data):
 if __name__ == '__main__':
 
     featurename = 'MismatchProfile'
-    piRNAletter = ['A', 'C', 'G', 'T']
+    enhancer = ['A', 'C', 'G', 'T']
 
     # input sequences for pssm feature
     fp = open("strong enhancers3.fasta", 'r')
